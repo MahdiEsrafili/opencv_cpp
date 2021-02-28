@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/mahdi/cpp_codes/opencv/segmentation/main.cpp
+/home/mahdi/cpp_codes/opencv/opencv_cpp/segmentation/main.cpp
 iostream
 -
 string

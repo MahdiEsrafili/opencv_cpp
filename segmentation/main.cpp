@@ -39,6 +39,50 @@ Mat background_remove(Mat in_img, Mat background_pattern, int method){
     return result;
 }
 
+static Scalar randomColor( RNG& rng )
+{
+	auto icolor = (unsigned) rng;
+	return Scalar( icolor&255, (icolor>>8)&255, (icolor>>16)&255 );
+}
+
+void connected_objects(Mat image){
+    Mat labels;
+    auto num_objects = connectedComponents(image, labels);
+    cout << "connected objects= " << num_objects << endl;
+    Mat output = Mat::zeros(image.rows, image.cols, CV_8UC3);
+    RNG rng(0xFFFFFFFF);
+    for (auto i=1; i<num_objects; i++){
+        Mat mask = labels==i;
+        output.setTo(randomColor(rng), mask);
+    }
+    imshow("objects detected", output);
+}
+
+void connected_objects_advanced(Mat image){
+    Mat labels, stats, centroids;
+    auto num_objects = connectedComponentsWithStats(image, labels, stats, centroids);
+    Mat output = Mat::zeros(image.rows, image.cols, CV_8UC3);
+    RNG rng(0xFFFFFFFF);
+    int valid_objects = 0;
+    for (auto i=1; i<num_objects; i++){
+        if (stats.at<int>(i, CC_STAT_AREA) < 50)
+            continue;
+        valid_objects++ ;
+        Mat mask = labels==i;
+        output.setTo(randomColor(rng), mask);
+        stringstream ss;
+        ss << "area: " << stats.at<int>(i, CC_STAT_AREA);
+        putText(output,
+            ss.str(),
+            centroids.at<Point2d>(i),
+            FONT_HERSHEY_SIMPLEX,
+            0.4,
+            Scalar(255, 255, 255));
+    }
+    cout << "objects detected = "<< valid_objects << endl;
+    imshow("objects detected", output);
+}
+
 int main(int argc, const char** argv){
     CommandLineParser parser(argc, argv, keys);
     parser.about("Image Segmentation");
@@ -61,6 +105,7 @@ int main(int argc, const char** argv){
     denoise(img, &img_denoised);
     Mat result;
     result = background_remove(img, background, lightMethod);
+    connected_objects_advanced(result);
     imshow("original image", img);
     imshow("background removed", result);
     waitKey(0);

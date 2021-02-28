@@ -1,4 +1,4 @@
-# Install script for directory: /home/mahdi/cpp_codes/opencv/segmentation
+# Install script for directory: /home/mahdi/cpp_codes/opencv/opencv_cpp/segmentation
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mahdi/cpp_codes/opencv/segmentation/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mahdi/cpp_codes/opencv/opencv_cpp/segmentation/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
