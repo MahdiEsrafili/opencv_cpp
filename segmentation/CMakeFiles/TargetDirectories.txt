@@ -1,0 +1,3 @@
+/home/mahdi/cpp_codes/opencv/segmentation/CMakeFiles/rebuild_cache.dir
+/home/mahdi/cpp_codes/opencv/segmentation/CMakeFiles/edit_cache.dir
+/home/mahdi/cpp_codes/opencv/segmentation/CMakeFiles/Segmentation.dir
