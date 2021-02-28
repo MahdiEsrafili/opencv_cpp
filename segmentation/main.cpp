@@ -83,6 +83,22 @@ void connected_objects_advanced(Mat image){
     imshow("objects detected", output);
 }
 
+void find_contours(Mat image){
+    vector<vector<Point>> contours;
+    findContours(image, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+    Mat output = Mat::zeros(image.rows, image.cols, CV_8UC3);
+    RNG rng(0xFFFFFFFF);
+    int num_contours = 0 ;
+    for (auto i=0; i<contours.size(); i++){
+        if(contours[i].size() < 100)
+            continue;
+        num_contours++;
+        drawContours(output, contours, i, randomColor(rng));
+        imshow("find contours", output);
+    }
+    cout << "found contours= " << num_contours<< endl;
+}
+
 int main(int argc, const char** argv){
     CommandLineParser parser(argc, argv, keys);
     parser.about("Image Segmentation");
@@ -104,10 +120,10 @@ int main(int argc, const char** argv){
     Mat img_denoised;
     denoise(img, &img_denoised);
     Mat result;
+    imshow("original image", img);
     result = background_remove(img, background, lightMethod);
     connected_objects_advanced(result);
-    imshow("original image", img);
-    imshow("background removed", result);
+    find_contours(result);
     waitKey(0);
     destroyAllWindows();
     return 0;
